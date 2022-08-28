@@ -39,9 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input | Getters")
 	bool IsHeldAction() const;
 
-	// ホールド中の更新を現状考慮してないので、BP 公開しないでおく
-	UFUNCTION()
-	void SetHoldTime(float HoldTime);
+	UFUNCTION(BlueprintCallable, Category = "Input | Getters")
+	void SetHoldTime(float HoldTime, bool& Result);
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Action")
@@ -65,6 +64,7 @@ protected:
 private:
 
 	void OverwriteHoldTime();
+	bool IsHoldActrive() const;
 
 	void UpdateInputActionWidgetVisibility();
 	void UpdateInputActionWidget();

@@ -88,6 +88,12 @@ void UInputBindingActionWidget::OverwriteHoldTime()
 	{
 		if (auto binding = FUIActionBinding::FindBinding(TriggeringBindingHandle))
 		{
+			if (binding->IsHoldActive())
+			{
+				// ホールド中は上書き不可とする
+				return;
+			}
+
 			for (FUIActionKeyMapping& holdMapping : binding->HoldMappings)
 			{
 				holdMapping.HoldTime = HoldTimeOverride;
@@ -95,6 +101,17 @@ void UInputBindingActionWidget::OverwriteHoldTime()
 		}
 	}
 #endif // COMMON_UI_PRIVATE_ACCESS
+}
+
+bool UInputBindingActionWidget::IsHoldActrive() const
+{
+#ifdef COMMON_UI_PRIVATE_ACCESS
+	if (const auto binding = FUIActionBinding::FindBinding(TriggeringBindingHandle))
+	{
+		return binding->IsHoldActive();
+	}
+#endif // COMMON_UI_PRIVATE_ACCESS
+	return false;
 }
 
 
@@ -152,10 +169,10 @@ bool UInputBindingActionWidget::IsHeldAction() const
 }
 
 
-void UInputBindingActionWidget::SetHoldTime(float HoldTime)
+void UInputBindingActionWidget::SetHoldTime(float HoldTime, bool& Result)
 {
 #ifdef COMMON_UI_PRIVATE_ACCESS
-	if (HoldTime > 0.f)
+	if (HoldTime > 0.f && !IsHoldActrive())
 	{
 		UnbindTriggeringInputAction();
 
@@ -167,8 +184,11 @@ void UInputBindingActionWidget::SetHoldTime(float HoldTime)
 		}
 
 		UpdateInputActionWidget();
+		Result = true;
+		return;
 	}
 #endif
+	Result = false;
 }
 
 void UInputBindingActionWidget::NativeOnActionProgress(float HeldPercent)
