@@ -7,12 +7,11 @@
 #include "Input/UIActionRouterTypes.h"
 #endif // COMMON_UI_PRIVATE_ACCESS
 
-
 #include "Input/CommonUIInputTypes.h"
-#include "CommonActionWidget.h"
+
+#include "CommonUITypes.h"
 #include "CommonActionWidget.h"
 #include "ICommonInputModule.h"
-
 
 void UInputBindingActionWidget::NativeConstruct()
 {

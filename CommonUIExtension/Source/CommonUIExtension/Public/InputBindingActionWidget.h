@@ -4,12 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "CommonUserWidget.h"
-
-#include "CommonUITypes.h"
 #include "Input/CommonInputMode.h"
 
 #include "InputBindingActionWidget.generated.h"
 
+enum class ECommonInputType : uint8;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActionCompleteEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActionProgressEvent, float, HeldPercent);
